@@ -1,7 +1,36 @@
-function displayTemperature(response) {
-  console.log(apiUrl);
-  console.log(response);
+function formatDate(timestamp) {
+  let date = new Date(timestamp);
+  let hours = date.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = date.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
 
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day = days[date.getDay()];
+  return `${day} ${hours}:${minutes}`;
+}
+
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
+
+function displayTemperature(response) {
   let temparatureElement = document.querySelector("#temperature-value");
   temparatureElement.innerHTML = Math.round(response.data.temperature.current);
   let cityElement = document.querySelector(".header");
@@ -12,8 +41,11 @@ function displayTemperature(response) {
   humidityElement.innerHTML = response.data.temperature.humidity;
   let speed = document.querySelector("#speed");
   speed.innerHTML = response.data.wind.speed;
+  let dateElement = document.querySelector("#date");
+  dateElement.innerHTML = formatDate(response.data.dt * 1000);
 }
+s;
 let apiKey = "05c98b0bebf349dd65cfftbab836o4c9";
 let apiUrl =
-  "https://api.shecodes.io/weather/v1/current?query=New York&key=05c98b0bebf349dd65cfftbab836o4c9&units=metric";
+  "https://api.shecodes.io/weather/v1/current?query=Polokwane&key=05c98b0bebf349dd65cfftbab836o4c9&units=metric";
 axios.get(apiUrl).then(displayTemperature);
