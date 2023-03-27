@@ -46,9 +46,9 @@ function displayTemperature(response) {
   let iconElement = document.querySelector("#icon");
   iconElement.setAttribute(
     "src",
-    "http://shecodes-assets.s3.amazonaws.com/api/weather/icons/rain-day.png"
+    `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`
   );
-  console.log(response.data);
+  iconElement.setAttribute("alt", response.data.condition.description);
 }
 let apiKey = "05c98b0bebf349dd65cfftbab836o4c9";
 let apiUrl =
