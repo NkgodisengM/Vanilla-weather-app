@@ -42,9 +42,14 @@ function displayTemperature(response) {
   let speed = document.querySelector("#speed");
   speed.innerHTML = response.data.wind.speed;
   let dateElement = document.querySelector("#date");
-  dateElement.innerHTML = formatDate(response.data.dt * 1000);
+  dateElement.innerHTML = formatDate(response.data.time * 1000);
+  let iconElement = document.querySelector("#icon");
+  iconElement.setAttribute(
+    "src",
+    "http://shecodes-assets.s3.amazonaws.com/api/weather/icons/rain-day.png"
+  );
+  console.log(response.data);
 }
-s;
 let apiKey = "05c98b0bebf349dd65cfftbab836o4c9";
 let apiUrl =
   "https://api.shecodes.io/weather/v1/current?query=Polokwane&key=05c98b0bebf349dd65cfftbab836o4c9&units=metric";
