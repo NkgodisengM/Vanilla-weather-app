@@ -50,7 +50,18 @@ function displayTemperature(response) {
   );
   iconElement.setAttribute("alt", response.data.condition.description);
 }
-let apiKey = "05c98b0bebf349dd65cfftbab836o4c9";
-let apiUrl =
-  "https://api.shecodes.io/weather/v1/current?query=Polokwane&key=05c98b0bebf349dd65cfftbab836o4c9&units=metric";
-axios.get(apiUrl).then(displayTemperature);
+
+function search(city) {
+  let apiKey = "05c98b0bebf349dd65cfftbab836o4c9";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=05c98b0bebf349dd65cfftbab836o4c9&units=metric`;
+  axios.get(apiUrl).then(displayTemperature);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
+}
+
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
