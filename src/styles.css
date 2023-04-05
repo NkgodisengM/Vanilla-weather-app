@@ -72,3 +72,20 @@ img {
 #date {
   font-size: 18spx;
 }
+
+.weather-forecast {
+  margin-top: 15px;
+  text-align: center;
+  color: black;
+}
+.weather-forecast-date {
+  font-size: 16px;
+  opacity: 0.5;
+}
+
+.weather-forecast-temperature {
+  font-size: 13px;
+}
+.weather-forecast-temperature-min {
+  opacity: 0.5;
+}
