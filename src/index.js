@@ -30,46 +30,13 @@ function formatDay(timestamp) {
   return days[day];
 }
 
-function displayTemperature(response) {
-  let temparatureElement = document.querySelector("#temperature-value");
-  temparatureElement.innerHTML = Math.round(response.data.temperature.current);
-  let cityElement = document.querySelector(".header");
-  cityElement.innerHTML = response.data.city;
-  let description = document.querySelector("#description");
-  description.innerHTML = response.data.condition.description;
-  let humidityElement = document.querySelector("#humidity");
-  humidityElement.innerHTML = response.data.temperature.humidity;
-  let speed = document.querySelector("#speed");
-  speed.innerHTML = response.data.wind.speed;
-  let dateElement = document.querySelector("#date");
-  dateElement.innerHTML = formatDate(response.data.time * 1000);
-  let iconElement = document.querySelector("#icon");
-  iconElement.setAttribute(
-    "src",
-    `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`
-  );
-  iconElement.setAttribute("alt", response.data.condition.description);
-}
+function displayForecast(response) {
+  console.log(response.data.daily);
 
-function search(city) {
-  let apiKey = "05c98b0bebf349dd65cfftbab836o4c9";
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(displayTemperature);
-}
-
-function handleSubmit(event) {
-  event.preventDefault();
-  let cityInputElement = document.querySelector("#city-input");
-  search(cityInputElement.value);
-}
-
-let form = document.querySelector("#search-form");
-form.addEventListener("submit", handleSubmit);
-
-function displayForecast() {
   let forecastElement = document.querySelector("#forecast");
-  let forecastHTML = `<div class="row">`;
+
   let days = ["Thu", "Fri", "Sat", "Sun", "Mon"];
+  let forecastHTML = `<div class="row">`;
   days.forEach(function (day) {
     forecastHTML =
       forecastHTML +
@@ -90,4 +57,49 @@ function displayForecast() {
   forecastElement.innerHTML = forecastHTML;
 }
 
-displayForecast();
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "05c98b0bebf349dd65cfftbab836o4c9";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function displayTemperature(response) {
+  console.log(response.data);
+  let temparatureElement = document.querySelector("#temperature-value");
+  temparatureElement.innerHTML = Math.round(response.data.temperature.current);
+  let cityElement = document.querySelector(".header");
+  cityElement.innerHTML = response.data.city;
+  let description = document.querySelector("#description");
+  description.innerHTML = response.data.condition.description;
+  let humidityElement = document.querySelector("#humidity");
+  humidityElement.innerHTML = response.data.temperature.humidity;
+  let speed = document.querySelector("#speed");
+  speed.innerHTML = response.data.wind.speed;
+  let dateElement = document.querySelector("#date");
+  dateElement.innerHTML = formatDate(response.data.time * 1000);
+  let iconElement = document.querySelector("#icon");
+  iconElement.setAttribute(
+    "src",
+    `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`
+  );
+  iconElement.setAttribute("alt", response.data.condition.description);
+  getForecast(response.data.coordinates);
+}
+
+function search(city) {
+  let apiKey = "05c98b0bebf349dd65cfftbab836o4c9";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayTemperature);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
+}
+
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
+
+search("New York");
